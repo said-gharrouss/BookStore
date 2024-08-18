@@ -1,0 +1,32 @@
+// composer create-project laravel/laravel book-store
+
+// composer require --dev laravel/breeze
+
+// php artisan breeze:install
+
+// api
+
+// npm init vite
+
+// frontend
+
+// react
+
+// javascript + SWC
+
+// cd frontend
+// npm install
+// npm run dev
+
+// API KEY : AIzaSyA0J3FZn5kOuYtoEdVA7tCNuO-7a1GN2V4
+
+// npm install axios
+
+// 1-Art
+// 2-fantasy
+// 3-Travel
+// 4-Poetry 
+// 5-Biography
+// 6-Science 
+// 7-Sports
+// 8-Education
