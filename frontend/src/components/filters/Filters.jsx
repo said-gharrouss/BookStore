@@ -59,7 +59,7 @@ function Filters() {
 
     return (
         <div>
-            <div className="w-full h-[40px] sm:h-[50px] text-[18px] sm:text-[20px] gap-[5px] font-semibold  mb-[20px] justify-center filters_style"
+            <div className="w-full bg-white h-[40px] sm:h-[50px] text-[18px] sm:text-[20px] gap-[5px] font-semibold  mb-[20px] justify-center filters_style"
             onClick={() => {
                 setShowFilters(prevState => !prevState);
                 setCategoriesFilterClicked(false);
@@ -73,7 +73,7 @@ function Filters() {
 
             <div className={`flex flex-col md:flex-row justify-between gap-[10px] sm:gap-[20px]  mb-[10px] relative z-10`}>
 
-                <div className={`w-full text-[12px] sm:text-[16px] ${showFilters ? "filters_content_clicked" : "filters_content_unclicked"} relative `}>
+                <div className={`w-full bg-white text-[12px] sm:text-[16px] ${showFilters ? "filters_content_clicked" : "filters_content_unclicked"} relative `}>
                     <div className="h-[40px] px-[10px] sm:px-[20px]  justify-between flex font-semibold filters_style"
                     onClick={() => handlePricesFilter()}>
                         <div>{selectPrice ? selectPrice : "All Prices"}</div>
@@ -108,7 +108,7 @@ function Filters() {
                     }
                 </div>
 
-                <div className={`w-full text-[12px] sm:text-[16px] ${showFilters ? "filters_content_clicked" : "filters_content_unclicked"} relative `}>
+                <div className={`w-full bg-white text-[12px] sm:text-[16px] ${showFilters ? "filters_content_clicked" : "filters_content_unclicked"} relative `}>
                     <div className="h-[40px] px-[10px] sm:px-[20px]  justify-between flex font-semibold filters_style"
                     onClick={() => handleCategoriesFilter()}>
                         <div>{selectCategorie ? selectCategorie : "All Categories"}</div>
@@ -132,7 +132,7 @@ function Filters() {
                     }
                 </div>
 
-                <div className={`w-full text-[12px] sm:text-[16px] ${showFilters ? "filters_content_clicked" : "filters_content_unclicked"} mb-[20px] sm:mb-0 `}>
+                <div className={`w-full bg-white text-[12px] sm:text-[16px] ${showFilters ? "filters_content_clicked" : "filters_content_unclicked"} mb-[20px] sm:mb-0 `}>
                     <div className="h-[40px] px-[10px] sm:px-[20px] justify-between flex font-semibold filters_style"
                         onClick={() => handleLanguagesFilter()}>
                         <div>{selectLanguage ? selectLanguage : "All Languages" }</div>

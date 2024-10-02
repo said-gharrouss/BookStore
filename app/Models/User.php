@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Book::class, 'user_book_favorites');
     }
 
+    public function details()
+    {
+        return $this->hasOne(UserDetail::class, 'user_id');
+    }
+
     /**
      * Get the attributes that should be cast.
      *

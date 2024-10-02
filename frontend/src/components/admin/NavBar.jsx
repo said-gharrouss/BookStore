@@ -4,17 +4,18 @@ import { useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 
 
-function NavBar({handleSideBar,sideBar}) {
+function NavBar({toggleSideBar,isSideBarVisible}) {
     const [isOpen,setIsOpen] = useState(false);
     const userFromState = useSelector(state => state.user.infos) ;
+    console.log(userFromState);
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : userFromState;
 
     return (
         <div className="bg-white w-full flex items-center justify-between py-[15px] relative z-[2] px-[20px] shadow-md">
         <div className="flex items-center gap-[20px]">
             {
-                !sideBar &&
-                <button className="text-[22px]" onClick={() => handleSideBar()}>
+                !isSideBarVisible &&
+                <button className="text-[22px]" onClick={() => toggleSideBar()}>
                     <i className="fas fa-columns"></i>
                 </button>
             }
@@ -50,8 +51,8 @@ function NavBar({handleSideBar,sideBar}) {
 }
 
 NavBar.propTypes = {
-    handleSideBar : PropTypes.func.isRequired,
-    sideBar : PropTypes.bool.isRequired,
+    toggleSideBar : PropTypes.func.isRequired,
+    isSideBarVisible : PropTypes.bool.isRequired,
 }
 
 export default NavBar

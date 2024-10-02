@@ -34,6 +34,7 @@ class UserBookFavoriteController extends Controller
             "user_id" => "required",
             "book_id" => "required",
         ]);
+        $book['user_id'] = auth()->id();
         UserBookFavorite::create($book);
     }
 

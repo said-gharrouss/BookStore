@@ -15,7 +15,7 @@ function Search({isOpen,setIsSearchBarOpen}) {
 
     const handleSearch = (searchTerm) => {
         setIsTyping(true)
-        const books = JSON.parse(localStorage.getItem("booksdata")) || [];
+        const books = JSON.parse(localStorage.getItem("books")) || [];
         const searchResult = books?.filter(book => book.title.toLowerCase().startsWith(searchTerm.toLowerCase()));
         setResult(searchResult);
         if(searchTerm === ""){
@@ -29,6 +29,8 @@ function Search({isOpen,setIsSearchBarOpen}) {
                 searchRef.current.focus();
             }
     }, [isOpen]);
+
+
 
 
     return (

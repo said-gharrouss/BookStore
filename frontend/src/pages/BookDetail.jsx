@@ -7,7 +7,8 @@ import { useEffect } from 'react';
 function BookDetail() {
     const { id } = useParams();
 
-    const books = JSON.parse(localStorage.getItem("booksdata"));
+    const books = JSON.parse(localStorage.getItem("books"));
+
     const filteredBooks = books?.filter(item => item.id == id);
     let book = filteredBooks?.length > 0 ? filteredBooks[0] : null;
 
@@ -28,8 +29,8 @@ function BookDetail() {
         });
     }, []);
 
-    const currentURL = window.location.href;
-    console.log(currentURL);
+    // const currentURL = window.location.href;
+    // console.log(currentURL);
 
     const languageCodes = {
         "AR": "العربية",

@@ -2,19 +2,19 @@ import { Link } from "react-router-dom"
 import PropTypes from 'prop-types';
 
 
-function SearchResults({result}) {
+function SearchResults({searchResults}) {
     return (
         <>
         {
-            result.length > 0 &&
+            searchResults.length > 0 &&
             <div className="bg-white border-[2px] border-primary_black w-full p-[10px] rounded-[4px] mt-[4px] shadow-md z-[3]
-            cursor-pointer max-h-[450px] overflow-y-scroll search-scrollbar">
+            cursor-pointer max-h-[450px] overflow-y-scroll search-scrollbar ">
             {
-                result?.map((item,key) => (
+                searchResults?.map((item,key) => (
                     <>
                     <Link to={`/admin/bookdetails/${item?.id}`}>
                         <div key={key} className={`flex justify-between items-center h-[70px] py-[15px]
-                            ${!(result.length - 1 == key) && "border-b-[1px] border-gray-500"} hover:bg-gray-100 transition-[0.3s]`}>
+                            ${!(searchResults.length - 1 == key) && "border-b-[1px] border-gray-500"} hover:bg-gray-100 transition-[0.3s]`}>
                             <img src={`${import.meta.env.VITE_BACKEND_URL}/storage/${item?.image}`} alt=""
                             className="w-[50px] h-full"/>
 
@@ -54,7 +54,7 @@ function SearchResults({result}) {
 }
 
 SearchResults.propTypes = {
-    result : PropTypes.object.isRequired,
+    searchResults : PropTypes.object.isRequired,
 
 }
 export default SearchResults

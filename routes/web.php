@@ -8,6 +8,8 @@ Route::get('/', function () {
 });
 
 Route::post("/checkout",[StripeController::class,"pay"]);
+Route::post('/stripe/payment-status', [StripeController::class, 'getPaymentStatus']);
+
 
 require __DIR__.'/auth.php';
 

@@ -56,10 +56,10 @@ function UserLinks({setSearchBar}) {
                     </Link>
                 </li>
                 <li className="relative">
-                    <div className="bg-primary text-white w-fit h-[30px]
+                    <div className="bg-primary text-white min-w-[120px] h-[30px]
                     flex justify-between gap-[10px] items-center rounded-[4px] px-[10px] cursor-pointer"
                     onClick={() => setIsUlDsp(prevState => !prevState)}>
-                        <div className="font-bold flex gap-[10px]">
+                        <div className="font-bold flex  gap-[10px]">
                             <span className="text-[14px] self-center">
                                 <i className="fa-solid fa-user"></i>
                             </span>
@@ -83,10 +83,17 @@ function UserLinks({setSearchBar}) {
                                 <span> My Profile </span>
                             </li>
                             </Link>
-                            <li className="hover:bg-gray-100 cursor-pointer flex items-center gap-[10px] px-[10px] py-[7px]">
-                                <span>
-                                    <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                                </span>
+                            <Link to={"/user/orders"} onClick={() => setIsUlDsp(false)}>
+                                <li className="hover:bg-gray-100 cursor-pointer px-[10px] py-[7px] flex items-center gap-[10px]">
+                                    <span>
+                                        <i className="fa-solid fa-clipboard-list"></i>
+                                    </span>
+                                    <span>
+                                        My Orders
+                                    </span>
+                                </li>
+                            </Link>
+                            <li className="hover:bg-gray-100 cursor-pointer  px-[10px] py-[7px]">
                                 <Logout/>
                             </li>
                         </ul>

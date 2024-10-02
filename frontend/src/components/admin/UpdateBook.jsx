@@ -8,10 +8,10 @@ import { bookAPi } from "../../api/bookApi";
 
 function UpdateBook() {
     const {id} = useParams();
-    const [image, setImage] = useState();
-    const [isLoading,setIsLoading] = useState(false);
+    const [selectedImage, setSelectedImage] = useState();
+    const [isSubmitting,setIsSubmitting] = useState(false);
     const navigate = useNavigate();
-    const createBookSchema = z.object({
+    const updateBookSchema = z.object({
         title : z.string().nonempty("Title is required")
             .min(5,"Title must be at least 5 charachters")
             .max(50,"Title must be shorter than 50 charachters"),
@@ -44,18 +44,18 @@ function UpdateBook() {
 
     const {register,handleSubmit,formState:{errors},setValue,setError} = useForm({
         mode : "onSubmit",
-        resolver : zodResolver(createBookSchema),
+        resolver : zodResolver(updateBookSchema),
     });
 
     const handleImageChange = (e) => {
-        setImage(e.target.files[0]);
+        setSelectedImage(e.target.files[0]);
     };
 
     useEffect(() => {
-        const book = JSON.parse(localStorage.getItem("books")).filter(book => book.id == id)[0];
+        const book = JSON.parse(localStorage.getItem("bookList")).filter(book => book.id == id)[0];
         if(book){
-            let bookValues = Object.entries(book);
-            bookValues.map(b => {
+            let bookEntries = Object.entries(book);
+            bookEntries.map(b => {
                 const [name,value] = b;
                 if (['price', 'page_count', 'quantity'].includes(name)) {
                     setValue(name, String(value));
@@ -75,23 +75,23 @@ function UpdateBook() {
     }, []);
 
 
-    const handleFormSubmit = async (data) => {
+    const onSubmit = async (data) => {
         const formData = new FormData();
-        if(image){
-            formData.append('image', image);
+        if(selectedImage){
+            formData.append('image', selectedImage);
         }
         formData.append('_method','put');
         Object.keys(data).forEach(key => formData.append(key, data[key]));
         try {
-            setIsLoading(true);
+            setIsSubmitting(true);
             const result = await bookAPi.updateBook(id,formData);
             if(result.status === 200){
-                setIsLoading(false);
+                setIsSubmitting(false);
                 sessionStorage.setItem('message', 'The book has been updated successfully!');
                 navigate(ADMIN_HOME);
             }
         } catch (error) {
-            setIsLoading(false)
+            setIsSubmitting(false)
             let {errors} = error.response.data;
             if (errors) {
                 errors = Object.entries(errors);
@@ -108,7 +108,7 @@ function UpdateBook() {
     return (
         <div className="px-[20px] mx-auto mt-[20px]">
             <div className="bg-white mt-[30px] p-[20px] sm:mx-[20px] md:mx-[50px] rounded-[4px]">
-                <form action="" className="flex flex-col gap-[20px]" onSubmit={handleSubmit(handleFormSubmit)} encType="multipart/form-data">
+                <form action="" className="flex flex-col gap-[20px]" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
                     <div>
                         <label htmlFor="" className={`${errors.title && "text-red-500"} block text-[14px] text-gray-500 mb-[5px]`}>Title</label>
                         <input type="text" className={`${errors.title && "border-red-500"} w-full outline-none border-[1px] border-gray-400 rounded-[4px] px-[10px] py-[5px]`}
@@ -194,9 +194,9 @@ function UpdateBook() {
                         {errors.description && <span className="text-red-500">{errors.description.message}</span> }
                     </div>
                     {
-                        !isLoading ?
+                        !isSubmitting ?
                         <button type="submit" className="bg-primary text-white font-bold px-[30px] md:px-[50px] py-[4px] md:py-[8px] rounded-[4px]
-                        w-fit ml-auto cursor-pointer hover:text-primary_black hover:bg-[#f1f5f9] hover:shadow-md
+                        w-fit ml-auto cursor-pointer border-[1px] hover:text-primary hover:bg-white hover:border-primary
                         transition-[0.3s]">Update
                         </button> :
                         <div className="flex justify-end ml-auto mr-[20px] h-[30px] w-[30px]">

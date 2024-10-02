@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {axiosClient} from "../../api/axios"
 import { favoriteBookApi } from '../../api/favoriteBookApi';
 
 

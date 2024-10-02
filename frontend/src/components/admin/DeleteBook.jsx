@@ -4,11 +4,12 @@ import { ADMIN_HOME } from "../../router/Index";
 import { bookAPi } from "../../api/bookApi";
 import PropTypes from 'prop-types';
 
-function DeleteBook({setDeleteAlert,bookId}) {
-    const [isLoading,setIsLoading] = useState(false);
+function DeleteBook({setShowDeleteAlert,selectedBookId}) {
+    const [loadingState,setLoadingState] = useState(false);
     const navigate = useNavigate();
-    const handleDelete = (id) => {
-        setIsLoading(true);
+
+    const performDeleteBook = (id) => {
+        setLoadingState(true);
         bookAPi.deleteBook(id)
         .then(response => {
             if(response.status === 200){
@@ -16,15 +17,15 @@ function DeleteBook({setDeleteAlert,bookId}) {
                 let books = JSON.parse(localStorage.getItem("books"));
                 books = books.filter(book => book.id !== id);
                 localStorage.setItem("books",JSON.stringify(books));
-                setDeleteAlert(false);
+                setShowDeleteAlert(false);
                 navigate(ADMIN_HOME);
             }
         }).catch(reason => console.log(reason))
-        .finally(() => setIsLoading(false));
+        .finally(() => setLoadingState(false));
     }
 
-    const handleButtonCancel = () => {
-        setDeleteAlert(false);
+    const cancelDelete = () => {
+        setShowDeleteAlert(false);
         document.body.classList.remove('no-scroll');
     }
 
@@ -35,12 +36,12 @@ function DeleteBook({setDeleteAlert,bookId}) {
                 <p className="my-[15px]">Are you sure you want to delete the book. This action cannot be undone.</p>
                 <div className="flex justify-end gap-[10px]">
                     <button className="bg-primary_black text-white font-bold px-[10px] py-[5px] rounded-[50px]
-                    hover:bg-gray-500 transition-[0.3s]"
-                    onClick={() => handleButtonCancel()}>Cancel</button>
-                    {!isLoading ?
+                    border-[1px] hover:bg-white hover:border-primary_black hover:text-primary_black transition-[0.3s]"
+                    onClick={() => cancelDelete()}>Cancel</button>
+                    {!loadingState ?
                     <button className="bg-red-500 text-white font-bold px-[10px] py-[5px] rounded-[50px]
-                    hover:bg-red-400 transition-[0.3s]"
-                    onClick={() => handleDelete(bookId)}>Delete</button>
+                    transition-[0.3s] border-[1px] hover:bg-white hover:border-red-500 hover:text-red-500"
+                    onClick={() => performDeleteBook(selectedBookId)}>Delete</button>
                     : <div className="loader"></div>
                     }
                 </div>
@@ -50,8 +51,8 @@ function DeleteBook({setDeleteAlert,bookId}) {
 }
 
 DeleteBook.propTypes = {
-    setDeleteAlert : PropTypes.bool.isRequired,
-    bookId : PropTypes.number.isRequired
+    setShowDeleteAlert : PropTypes.bool.isRequired,
+    selectedBookId : PropTypes.number.isRequired
 };
 
 export default DeleteBook

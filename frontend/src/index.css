@@ -13,8 +13,9 @@ html {
 }
 
 body{
-    user-select: none;
+    /* user-select: none; */
     color: #374151;
+    /* background-color: #f1f5f9; */
 }
 
 .links-hover{
@@ -96,6 +97,7 @@ body{
     right: 0;
     background-color: #f1f5f9;
     bottom: -10px;
+    background-color: #f1f5f95f;
 }
 
 .red-heart{

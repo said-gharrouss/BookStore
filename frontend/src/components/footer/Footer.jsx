@@ -7,7 +7,7 @@ function Footer() {
         "fa-brands fa-linkedin-in"
     ]
     return (
-        <div className="bg-primary h-[200px] mt-[50px]">
+        <div className="bg-primary h-[230px] md:h-[200px] mt-[50px]">
             <div className="pt-[50px] pb-[20px] flex justify-center gap-[20px] border-b-[1px] mx-[100px]">
                 {
                     sMediaIcons.map((icon,key)=>(

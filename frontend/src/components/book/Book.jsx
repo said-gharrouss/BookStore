@@ -19,9 +19,9 @@ import {LOGIN_FORM} from "../../router/Index"
 function Book({ item, isBookInFavorites, isBookInCart }) {
     const [hover, setHover] = useState(null);
     const dispatch = useDispatch();
-    const shopingCart = useSelector(({ shopingCart }) => shopingCart.books);
-    const currentBook = shopingCart?.filter(book => book.item?.id === item?.id);
-    const quantity = currentBook[0]?.quantity;
+    const shoppingCart = useSelector(({ shopingCart }) => shopingCart.books);
+    const currentBookInCart = shoppingCart?.filter(book => book.item?.id === item?.id);
+    const quantity = currentBookInCart[0]?.quantity;
     const user = useSelector(state => state.user.infos);
     const [loginForm, setLoginForm] = useState(false);
     const navigate = useNavigate();
@@ -40,7 +40,7 @@ function Book({ item, isBookInFavorites, isBookInCart }) {
         }
     }, [loginForm, navigate]);
 
-    const handleAddFavorite = () => {
+    const addBookToFavorites = () => {
         if(user?.id){
             dispatch(handleAddToFavorite(item));
             dispatch(addBook({user_id : user.id,book_id : item?.id}));
@@ -48,7 +48,7 @@ function Book({ item, isBookInFavorites, isBookInCart }) {
             setLoginForm(true);
         }
     };
-    const handleRemoveFavorite = () => {
+    const removeBookFromFavorites = () => {
         dispatch(handleRemoveFromFavorite({id:item?.id}));
         dispatch(deleteBook({user_id : user.id, item}))
     }
@@ -63,7 +63,7 @@ function Book({ item, isBookInFavorites, isBookInCart }) {
 
                     <span className={`cursor-pointer ${isBookInFavorites && "red-heart"}`}
                         onClick={() => {
-                            isBookInFavorites ? handleRemoveFavorite() : handleAddFavorite();
+                            isBookInFavorites ? removeBookFromFavorites() : addBookToFavorites();
                         }} >
                         <i className="fa-solid fa-heart"></i>
                     </span>
@@ -76,7 +76,7 @@ function Book({ item, isBookInFavorites, isBookInCart }) {
                 flex justify-center items-center md:hidden">
                     <span className={`cursor-pointer ${isBookInFavorites && "red-heart"}`}
                         onClick={() => {
-                            isBookInFavorites ? handleRemoveFavorite() : handleAddFavorite();
+                            isBookInFavorites ? removeBookFromFavorites() : addBookToFavorites();
                         }} >
                         <i className="fa-solid fa-heart"></i>
                     </span>
@@ -93,10 +93,14 @@ function Book({ item, isBookInFavorites, isBookInCart }) {
                         isBookInCart ?
                             <div className="min-h-[40px] font-semibold bg-gray-100 flex items-center
                             justify-center gap-[20px] relative">
-                                <span className={`cursor-pointer ${quantity > 1 ? "" : "not-clickable"} text-[22px]`}
+                                <span className={`cursor-pointer ${quantity > 1 ? "" : "not-clickable"} text-[22px]
+                                size-[25px] rounded-[50px] bg-gray-100 shadow-[0_1px_5px_rgb(0,0,0,0.1)] hover:shadow-[0_1px_5px_rgb(0,0,0,0.2)]
+                                flex justify-center items-center`}
                                     onClick={() => dispatch(handleQuantityDecrement({ id: item?.id }))}>-</span>
-                                <span className="text-[18px]">{quantity}</span>
-                                <span className="cursor-pointer text-[22px]"
+                                <span className="text-[15px] size-[25px] rounded-[50px]   flex justify-center items-center"
+                                >{quantity}</span>
+                                <span className="cursor-pointer text-[22px] size-[25px] rounded-[50px]   flex justify-center items-center
+                                shadow-[0_1px_5px_rgb(0,0,0,0.1)] hover:shadow-[0_1px_5px_rgb(0,0,0,0.2)]"
                                     onClick={() => dispatch(handleQuantityIncrement({ id: item?.id }))}>+</span>
                                 <span className="absolute w-[20px] h-[20px] text-white bg-red-500 cursor-pointer
                                 rounded-[50%] flex items-center justify-center text-[15px] top-[-7px] right-[-6px]"

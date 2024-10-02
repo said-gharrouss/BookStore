@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleUserInfos } from "../Redux/User/UserSlice";
 
 function AdminLayout() {
-    const [sideBar,setSideBar] = useState(true);
+    const [isSideBarVisible,setIsSideBarVisible] = useState(true);
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
     const token = useSelector(state => state.user.token);
     const role = useSelector(state => state.user.role);
@@ -35,8 +35,8 @@ function AdminLayout() {
         }
     },[isAuthenticated,navigate,dispatch,token,role]);
 
-    const handleSideBar = () => {
-        setSideBar(prevState => !prevState);
+    const toggleSideBar = () => {
+        setIsSideBarVisible(prevState => !prevState);
     }
 
     if(isLoading){
@@ -44,9 +44,9 @@ function AdminLayout() {
     }
     return (
         <div className="mx-auto flex h-[100%] bg-[#f1f5f9] ">
-            <SideBar handleSideBar={handleSideBar} sideBar={sideBar}/>
-            <div className={`w-full  transition-[0.3s] pb-[30px] ${sideBar ? "ml-[60px] sm:ml-[100px] md:ml-[200px]" : "ml-[0px]"}`}>
-                <NavBar handleSideBar={handleSideBar} sideBar={sideBar}/>
+            <SideBar toggleSideBar={toggleSideBar} isSideBarVisible={isSideBarVisible}/>
+            <div className={`w-full  transition-[0.3s] pb-[30px] ${isSideBarVisible ? "ml-[60px] sm:ml-[100px] md:ml-[200px]" : "ml-[0px]"}`}>
+                <NavBar toggleSideBar={toggleSideBar} isSideBarVisible={isSideBarVisible}/>
                 <Outlet/>
             </div>
         </div>

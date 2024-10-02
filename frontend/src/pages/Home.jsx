@@ -23,7 +23,7 @@ function Home() {
 
     return (
         <>
-        <section className="py-[80px] sm:py-[120px] lg:py-[96px] sm:mt-0 bg-primary" id='home'>
+        <section className="flex h-[100vh] sm:mt-0 bg-primary" id='home'>
             <div className="container mx-auto flex items-center" id='hero'>
                 <div className="lg:flex-[1.5] lg:gap-[200px] mx-auto">
                     <p className='w-[250px] sm:w-[400px] lg:w-[600px] mx-auto sm:mx-0 text-center sm:text-left text-[20px] lg:text-[30px] font-bold text-white'>
@@ -54,7 +54,7 @@ function Home() {
         </section>
         {
             up &&
-            <button onClick={() => handleButtonUp()} className="w-[38px] h-[38px] bg-primary text-white font-bold fixed bottom-[10px] right-[10px]
+            <button onClick={() => handleButtonUp()} className="hidden md:block w-[38px] h-[38px] bg-primary text-white font-bold fixed bottom-[10px] right-[10px]
             rounded-[50%] text-[20px] shadow-lg hover:bg-white hover:text-primary transition-[0.3s] z-[500]">
                 <i className="fa-solid fa-arrow-up"></i>
             </button>

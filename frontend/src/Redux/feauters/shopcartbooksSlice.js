@@ -19,7 +19,7 @@ const shopCartBooksSlice = createSlice({
         },
 
         handleQuantityIncrement : (state,action) => {
-            state.books.map((item) =>{
+            state.books.map((item) => {
                 if(item.item.id == action.payload.id){
                     return item.quantity += 1;
                 }

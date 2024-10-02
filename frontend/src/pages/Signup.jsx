@@ -41,6 +41,7 @@ function Signup() {
         password : z.string()
             .nonempty("password is required")
             .min(8,"password must be at least 8 charachters")
+            .max(15,"password must be shorter than 20 charachters")
     });
     const {register,handleSubmit,formState:{errors,isSubmitting},setError} = useForm({
         mode: "onSubmit",
@@ -72,10 +73,10 @@ function Signup() {
     }
 
     return (
-        <div className="bg-[#f1f5f9] w-[100vw] h-[100vh]">
-        <div className="w-[90%] sm:w-[400px] md:w-[500px] rounded-[6px] absolute left-[50%] translate-x-[-50%] top-[50px]  bg-lightwhite p-[20px] shadow-lg">
+        <div className="bg-[#f1f5f9] w-[100vw] h-[100vh] flex justify-center items-center flex-col gap-[30px]">
+        <div className="w-[90%] sm:w-[400px] md:w-[500px] rounded-[6px] bg-lightwhite p-[20px] shadow-md">
             <p className="text-center text-[20px] sm:text-[30px] mb-[10px] font-bold">Join our community of <span className="text-primary">book lovers!</span></p>
-            <p className="text-center mb-[15px] text-gray-500 text-[14px] sm:text-[16px]">Sign up now to discover new releases, <br /> exclusive offers, and more</p>
+            {/* <p className="text-center mb-[15px] text-gray-500 text-[14px] sm:text-[16px]">Sign up now to discover new releases, <br /> exclusive offers, and more</p> */}
             <form action="" onSubmit={handleSubmit(formSubmit)}>
                 <div className="mb-[15px]">
                         <input type="text" className="w-full block h-[40px] sm:h-[50px] text-[14px] sm:text-[18px] outline-none rounded-[6px] px-[20px] input-focus"
@@ -107,15 +108,21 @@ function Signup() {
                 </div>
                 <p className="text-center text-[15px] text-gray-500">Already have an account? <Link to={"/login"} className="underline text-primary">Log in here</Link></p>
             </form>
-
-            <Link to={"/"}>
-                <span className="absolute top-[-10px] right-[-10px] bg-primary text-white w-[30px] h-[30px]
-                rounded-[50px] flex justify-center items-center cursor-pointer hover:bg-red-500
-                transition-[0.3s] shadow-md">
-                    <i className="fa-solid fa-xmark"></i>
-                </span>
-            </Link>
         </div>
+            <Link to={"/"}>
+                <div className="bg-white w-[100%] sm:w-[400px] md:w-[500px] rounded-[10px] overflow-hidden
+                border-[1px] border-gray-300 hover:border-gray-600 transition-[0.3s]">
+                    <div className="p-[20px] flex justify-center items-center
+                    shadow-md gap-[10px] ">
+                        <span className="font-semibold">
+                            Continue as a Guest
+                        </span>
+                        <span className="self-end text-[15px]">
+                            <i className="fa-solid fa-angle-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </Link>
         </div>
     )
 }

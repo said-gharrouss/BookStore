@@ -3,13 +3,14 @@ import Filters from "../filters/Filters"
 import Book from "../book/Book";
 import { useSelector} from 'react-redux';
 import { bookAPi } from "../../api/bookApi";
+import BooksSkeleton from "./BooksSkeleton";
 
 function Books() {
     const shopingCart = useSelector(({shopingCart}) => shopingCart.books);
     const langFilter = useSelector(({filters}) => filters.languageFilter);
     const priceFilter = useSelector(({filters}) => filters.priceFilter);
     const categorieFilter = useSelector(({filters}) => filters.categorieFilter);
-    const [books,setBooks] = useState(localStorage.getItem("booksdata") ? JSON.parse(localStorage.getItem("booksdata")) : []);
+    const [books,setBooks] = useState(localStorage.getItem("books") ? JSON.parse(localStorage.getItem("books")) : []);
     const favBooks = useSelector(state => state.favBooks.books);
 
     const handlePrevPage = () => {
@@ -28,7 +29,7 @@ function Books() {
         bookAPi.getBooks()
         .then((response) => {
             if(response.status === 200){
-                localStorage.setItem("booksdata",JSON.stringify(response.data));
+                localStorage.setItem("books",JSON.stringify(response.data));
                 setBooks(response.data);
             }
         }).catch((reason) => reason);
@@ -104,17 +105,14 @@ function Books() {
                         const isBookInFavorites = favBooks?.some(book => book?.id === item?.id);
                         const isBookInCart = shopingCart.some(cartItem => cartItem.item?.id === item?.id);
                         return <Book key={item.id} item={item} isBookInFavorites={isBookInFavorites} isBookInCart={isBookInCart}/>
-                    }) :
-                    <div className="mt-[50px] text-[30px] text-gray-500">
-                        No books available that match the selected filters.
-                    </div>
+                    }) : <p className="text-center font-semibold text-[18px] md:text-[25px]" >Oops! No books found with the selected filters. Try refining your search.</p>
                 }
             </div>
 
             {
                 finalBooks.length >= avaliableBooksNm &&
                 <div className="max-w-[300px] sm:max-w-[500px] lg:max-w-[600px] mx-auto bg-white flex items-center justify-center gap-[15px] md:gap-[30px] mt-[50px] px-[20px] py-[10px] rounded-[50px]
-                    shadow-lg overflow-hidden text-[12px] md:text-[18px] border-[1px] border-primary_black ">
+                    overflow-hidden text-[12px] md:text-[18px] border-[1px] border-primary_black ">
                         <span className="flex items-center cursor-pointer hover:text-gray-400 transition-[0.3s]"
                         onClick={() => handlePrevPage()}>
                             <span className="mr-[5px] md:mr-[10px]"><i className="fa-solid fa-angle-left"></i></span>

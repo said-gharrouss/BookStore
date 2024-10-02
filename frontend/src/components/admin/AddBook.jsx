@@ -7,10 +7,10 @@ import { ADMIN_HOME } from "../../router/Index";
 import { bookAPi } from "../../api/bookApi";
 
 function AddBook() {
-    const [image, setImage] = useState();
-    const [isLoading,setLoading] = useState(false);
+    const [selectedImage, setSelectedImage] = useState();
+    const [loadingState,setLoadingState] = useState(false);
     const navigate = useNavigate();
-    const createBookSchema = z.object({
+    const bookValidationSchema = z.object({
         title : z.string().nonempty("Title is required")
             .min(5,"Title must be at least 5 charachters")
             .max(50,"Title must be shorter than 50 charachters"),
@@ -46,18 +46,18 @@ function AddBook() {
 
     const {register,handleSubmit,formState:{errors},setError} = useForm({
         mode : "onSubmit",
-        resolver : zodResolver(createBookSchema),
+        resolver : zodResolver(bookValidationSchema),
     });
 
-    const handleImageChange = (e) => {
-        setImage(e.target.files[0]);
+    const onImageChange = (e) => {
+        setSelectedImage(e.target.files[0]);
     };
 
-    const handleFormSubmit = async (data) => {
+    const submitBookForm = async (data) => {
         const formData = new FormData();
-        formData.append('image', image);
+        formData.append('image', selectedImage);
         Object.keys(data).forEach(key => formData.append(key, data[key]));
-        setLoading(true);
+        setLoadingState(true);
         await bookAPi.insertBook(formData)
         .then(response => {
             if(response.status === 200){
@@ -74,7 +74,7 @@ function AddBook() {
                     setError(fieldName, {message: errorMessages.join("")});
                 });
             }
-        }).finally(() => setLoading(false));
+        }).finally(() => setLoadingState(false));
     }
     useEffect(() => {
         window.scrollTo({
@@ -87,7 +87,7 @@ function AddBook() {
         <div className="px-[20px] mx-auto mt-[20px]">
             <h2 className="admin-title">Add Book</h2>
             <div className="bg-white mt-[30px] p-[20px] sm:mx-[20px] md:mx-[50px] rounded-[4px]">
-                <form action="" className="flex flex-col gap-[20px]" onSubmit={handleSubmit(handleFormSubmit)} encType="multipart/form-data">
+                <form action="" className="flex flex-col gap-[20px]" onSubmit={handleSubmit(submitBookForm)} encType="multipart/form-data">
                     <div>
                         <label htmlFor="" className={`${errors.title && "text-red-500"} block text-[14px] text-gray-500 mb-[5px]`}>Title</label>
                         <input type="text" className={`${errors.title && "border-red-500"} w-full outline-none border-[1px] border-gray-400 rounded-[4px] px-[10px] py-[5px]`}
@@ -133,7 +133,7 @@ function AddBook() {
                     <div>
                         <label htmlFor="" className={`${errors.image && "text-red-500"} block text-[14px] text-gray-500 mb-[5px]`}>Image</label>
                         <input type="file" className={`${errors.image && "border-red-500"} w-full outline-none border-[1px] border-gray-400 rounded-[4px] px-[10px] py-[5px]`}
-                        {...register("image")} onChange={handleImageChange} />
+                        {...register("image")} onChange={onImageChange} />
                         {errors.image && <span className="text-red-500">{errors.image.message}</span> }
                     </div>
                     <div>
@@ -173,10 +173,10 @@ function AddBook() {
                         {errors.description && <span className="text-red-500">{errors.description.message}</span> }
                     </div>
                     {
-                        !isLoading ?
+                        !loadingState ?
                         <button type="submit" className="bg-primary text-white font-bold px-[30px] md:px-[50px] py-[4px] md:py-[8px] rounded-[4px]
-                        w-fit ml-auto cursor-pointer hover:text-primary_black hover:bg-[#f1f5f9] hover:shadow-md
-                        transition-[0.3s]">Add
+                        w-fit ml-auto cursor-pointer border-[1px] hover:text-primary hover:bg-white
+                        hover:border-primary transition-[0.3s]">Add
                         </button> :
                         <div className="flex justify-end ml-auto mr-[20px] h-[30px] w-[30px]">
                             <div className="loader"></div>

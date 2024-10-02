@@ -4,7 +4,7 @@ import { useEffect, useState} from "react"
 import { ADMIN_HOME, LOGIN_FORM } from "../router/Index";
 import { userApi } from "../api/userApi";
 import { useDispatch, useSelector } from "react-redux";
-import { handleUserInfos } from "../Redux/User/UserSlice";
+import { getInfos, handleUserInfos } from "../Redux/User/UserSlice";
 import UserNavbar from "../components/navbar/UserNavbar/UserNavbar";
 
 
@@ -18,14 +18,7 @@ function UserLayout() {
     useEffect(() => {
         if (isAuthenticated && token && role === "user"){
             setIsLoading(false);
-            userApi.userInfos().then((response) => {
-                if(response.status === 200){
-                    const id = response.data.id;
-                    const name = response.data.name;
-                    const email = response.data.email;
-                    dispatch(handleUserInfos({id,name,email}))
-                }
-            }).catch((reason) => console.log(reason));
+            dispatch(getInfos());
         } else if(isAuthenticated && token && role === "admin"){
             navigate(ADMIN_HOME);
         }
